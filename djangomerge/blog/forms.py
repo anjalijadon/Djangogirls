@@ -4,10 +4,15 @@ from .models import Post, User
 
 class PostForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # it is required to set it False,
+        # otherwise it will throw error in console
+        self.fields["text"].required = False
+        
     class Meta:
         model = Post
-        fields = ('title', 'text','category','tag')
-
+        fields = ('title', 'text','featured_image','thumbnail_image','category','tag')
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget = forms.PasswordInput)
@@ -28,6 +33,3 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('content',)
 """
-
-
-    

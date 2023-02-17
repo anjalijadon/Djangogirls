@@ -2,12 +2,11 @@
 
 {% block content %}      
 
-
-
 <!--Login--> 
-<div class="container">
+<div class="form-control input-block-level">
   <h1>Login</h1>
   <form method="POST">
+    
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">Login</button>
