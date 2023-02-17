@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+	<article class="post">
+		<aside class="actions">
+            {% if user.is_authenticated %}
+                <a class="btn btn-secondary" href="{% url 'blog:profile-edit' %}">
+                    {% include './icons/plus-square.svg' %}
+                </a>
+            {% endif %}
+		</aside>
+		<div class="d-flex">
+			<img src="{{ user.image.url }}" class="img-circle " alt="{{post.username}}" ALIGN=”right” style="width: 150px; height: 150px; object-fit: cover; border-radius: 100%;"> 
+        	<h1>This is the profile page for {{user.username}}</h1>
+			<hr>
+		</div>
+		<div class="user-detail">
+			<h4 class="text-muted mb-0" style="font-size: 30px">Username:
+			{{ user.username }}</h4>
+			<h4 class="text-muted mb-0" style="font-size: 30px">Name:
+			{{ user.first_name }} {{ user.last_name }}</h4>
+			<h4 class="text-muted mb-0" style="font-size: 30px">Email:
+			{{ user.email }} </h4>
+			<h4 class="text-muted mb-0" style="font-size: 30px">Gender:
+			{{ user.gender}} </h4>
+			<h4 class="text-muted mb-0" style="font-size: 30px">Mobile NUmber:
+			{{ user.mobile_no}} </h4>
+			<h4 class="text-muted mb-0" style="font-size: 30p1x">City:
+			{{ user.city }} </h4>
+			<h4 class="text-muted mb-0" style="font-size: 30px">Country:
+			{{ user.country}} </h4>
+			
+			
+   		</div>
+	</article>
+{% endblock content %}
