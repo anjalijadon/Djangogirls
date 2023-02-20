@@ -20,11 +20,8 @@ def download_csv(self, request, queryset):
 
     return response
 
-# download_csv.short_description = "Download CSV"
-
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_filter = ['name']
 
 class PostAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -56,10 +53,10 @@ class PostAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_filter = ['name']
+
 class CommentAdmin(admin.ModelAdmin):
     search_fields = ['comment']
-    list_filter = ['comment']
+
 admin.site.register(User)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)

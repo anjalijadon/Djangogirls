@@ -17,7 +17,17 @@ def post_detail(request, slug):
 	categories = Category.objects.all()
 	tags = Tag.objects.all()
 	comments = Comment.objects.filter(post=post)
-	return render(request, 'blog/post_detail.html', {'post': post, 'categories': categories,'tags': tags, 'comments':comments})
+	print(comments)
+	if request.method == "POST":
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comments = form.save(commit=False)
+			comments.post = post
+			comments.save()
+		return redirect('blog:post_detail', slug=post.slug)
+	else:
+		form  = CommentForm()
+	return render(request, 'blog/post_detail.html', {'post': post, 'categories': categories,'tags': tags, 'form':form,'comment':comments})
 	
 def post_new(request):
 	if request.method == "POST":
@@ -41,7 +51,7 @@ def post_edit(request, slug):
 			post.author = request.user
 			post.published_date = timezone.now()
 			post.save()
-			return redirect('post_detail', slug=post.slug)
+			return redirect('blog:post_detail', slug=post.slug)
 	else:
 		form = PostForm(instance=post)
 	return render(request, 'blog/post_edit.html', {'form': form})
@@ -97,7 +107,7 @@ def profile_edit(request):
 			return redirect('blog:users-profile')
 	else:
 		form = UserForm(instance=user)
-	return render(request, 'blog/profile_edit.html', {'form': form})
+	return render(request, 'blog/signup.html', {'form': form})
 
 def category(request,slug):
 	posts = Post.objects.filter(category__slug=slug)#.filter(published_date=True)
@@ -119,15 +129,17 @@ def tag(request, slug):
 		'tag': requested_tag,
 		'categories': categories,
 		'tags': tags, })
-
+"""
 def comment(request,slug):
-	if request.method=="POST":        
-		comment = request.POST.get("comment")
-		user = request.user
+	if request.method=="POST":      
+		content = request.POST.get("comment")
+		name = request.user
+		email = request.email
 		post = Post.objects.get(slug=slug)
 
-		comment = Comment(comment=comment, user=user, post=post)
+		comment = Comment(comment=content, user=name, post=post, email=email)
 		comment.save()
 		messages.success(request, "Your comment has been posted successfully")
 
-	return redirect(f"/blog/{post.slug}")
+	return redirect(f"/blog/post_detail")
+"""

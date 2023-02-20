@@ -26,6 +26,10 @@
                                 {% include './icons/lock.svg' %}
                                 <p>Logout</p>
                             </a>
+                            <a class="btn btn-default float-right" href="{% url 'blog:post_new' %}">
+                                {% include './icons/file-earmark-plus.svg' %}
+                                <p>New Post</p>
+                            </a>
                             {% else %}
                             <a class="btn btn-default float-right" href="{% url 'blog:login' %}">
                                 {% include './icons/unlock.svg' %}

@@ -66,14 +66,16 @@ class Post(models.Model):
         return self.title
     
 class Comment(models.Model):
-    s_no= models.AutoField(primary_key=True)
-    comment=models.TextField()
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
-    #parent=models.ForeignKey('self',on_delete=models.CASCADE, null=True )
+    name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from=('name'), unique=True)
+    email = models.EmailField(max_length=100, default='abc@gmail.com')
+    comment = models.TextField(max_length = 1000, default = 'Good')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=now)
 
-    def __st__(self):
-        return self.comment[0:13] + "..."+" by " + self.user.username
+    class Meta:
+        ordering = ('-timestamp',)
 
+    def __str__(self):
+        return self.name
 
