@@ -21,8 +21,16 @@ def post_detail(request, slug):
 	if request.method == "POST":
 		form = CommentForm(request.POST)
 		if form.is_valid():
+			try :
+				parent = request.POST.get('comment_id')
+				parent = Comment.objects.filter(id = parent).last()
+				print(parent, 'parent instanceeeee')
+			except:
+				parent=None
+			#print(parent,'aaaaaaaaaaaaaaaaaaa')
 			comments = form.save(commit=False)
 			comments.post = post
+			comments.parent = parent
 			comments.save()
 		return redirect('blog:post_detail', slug=post.slug)
 	else:
@@ -63,7 +71,7 @@ def signup_request(request):
 			user = form.save()
 			login(request, user)
 			messages.success(request, "Registration successful." )
-			return redirect('post_list')
+			return redirect("blog:post_list")
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = UserForm()
 	return render(request=request, template_name="blog/signup.html", context={'form':form})
@@ -129,17 +137,3 @@ def tag(request, slug):
 		'tag': requested_tag,
 		'categories': categories,
 		'tags': tags, })
-"""
-def comment(request,slug):
-	if request.method=="POST":      
-		content = request.POST.get("comment")
-		name = request.user
-		email = request.email
-		post = Post.objects.get(slug=slug)
-
-		comment = Comment(comment=content, user=name, post=post, email=email)
-		comment.save()
-		messages.success(request, "Your comment has been posted successfully")
-
-	return redirect(f"/blog/post_detail")
-"""

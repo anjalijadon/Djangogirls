@@ -4,18 +4,22 @@
     <article class="post">
         {% if user.is_authenticated %}
         <h2>New Profile</h2>
-        <form method="POST" class="post-form" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="save btn btn-secondary">Save</button>
-        </form>
+        <div class="w-50">
+            <form method="POST" class="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-secondary">Save</button>
+            </form>
+        </div>
         {% else %}
         <h2>SignUp</h2>
-        <form  method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p  }} 
-        <button class="btn btn-primary" type="submit">SignUp</button>
-        </form> 
+        <div class="w-25">
+            <form  method="POST" class="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p  }} 
+            <button class="btn btn-primary" type="submit">SignUp</button>
+            </form> 
+        </div>
         {% endif %}
     </article>
 {% endblock %}

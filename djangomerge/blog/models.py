@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-#from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
 from django_extensions.db.fields import AutoSlugField
@@ -67,15 +66,26 @@ class Post(models.Model):
     
 class Comment(models.Model):
     name = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from=('name'), unique=True)
+    # id =  models.AutoField(primary_key=True)
     email = models.EmailField(max_length=100, default='abc@gmail.com')
     comment = models.TextField(max_length = 1000, default = 'Good')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=now)
+    parent = models.ForeignKey('self' , null=True , blank=True , on_delete=models.CASCADE , related_name='replies')
 
     class Meta:
         ordering = ('-timestamp',)
 
     def __str__(self):
         return self.name
+    
+    @property
+    def children(self):
+        return Comment.objects.filter(parent=self).reverse()
+
+    @property
+    def is_parent(self):
+        if self.parent is None:
+            return True
+        return False
 
