@@ -4,7 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
 from django_extensions.db.fields import AutoSlugField
 from django.utils.safestring import mark_safe
-from django_ckeditor_5.fields import CKEditor5Field
+# from django_ckeditor_5.fields import CKEditor5Field
+from ckeditor.fields import RichTextField
 
 class User(AbstractUser):
     email = models.EmailField(max_length=255,blank=True,null=True)
@@ -43,7 +44,8 @@ class Post(models.Model):
     author=models.ForeignKey(User, on_delete=models.CASCADE)
     title=models.CharField(max_length=200)
     slug = AutoSlugField(populate_from=('title'), unique=True, max_length=255)
-    text = CKEditor5Field('Text', config_name='extends')
+    text = RichTextField(config_name='awesome_ckeditor')
+    # text = CKEditor5Field('Text', config_name='extends')
     featured_image = models.ImageField(upload_to="featured_images/")
     thumbnail_image = models.ImageField(upload_to="thumbnail_images/")
     created_date=models.DateTimeField(default=timezone.now)
