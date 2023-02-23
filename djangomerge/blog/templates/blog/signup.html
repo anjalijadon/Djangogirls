@@ -12,14 +12,14 @@
             </form>
         </div>
         {% else %}
-        <h2>SignUp</h2>
-        <div class="w-25">
-            <form  method="POST" class="post-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p  }} 
-            <button class="btn btn-primary" type="submit">SignUp</button>
-            </form> 
-        </div>
+            <h2>SignUp</h2>
+            <div class="w-25">
+                <form  method="POST" class="post-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p  }} 
+                    <button class="btn btn-primary" type="submit">SignUp</button>
+                </form> 
+            </div>
         {% endif %}
     </article>
 {% endblock %}

@@ -27,7 +27,7 @@
         </div>
         <br/>
         <div style="text-align: start;">
-            <p> {{ post.text|linebreaksbr }} </p>
+            <p> {{ post.text|safe }} </p>
         </div>
         <h4>Tags</h4>
         {% for tag in post.tag.all %}
@@ -38,7 +38,6 @@
         <h6>Comments</h6>
         <div class="w-50 p-2">
             <div class="row d-flex justify-content-left">
-                <!-- <div class="col-md-12 col-lg-12 col-xl-12"> -->
                 <div class="card mb-3">
                     <div class="card-footer py-3 border-0 " style="background-color: #f8f9fa;">
                         <div class="d-flex flex-start ">
@@ -98,7 +97,6 @@
                         </div> 
                     </div>
                 {% endfor %}                            
-                <!-- </div> -->
             </div>
         </div>
         </main>
@@ -108,13 +106,8 @@
         $(document).ready(function(){
             $(document).on("click",".replay-form",function(){
                 const formId = $(this).attr('id');
-                console.log(formId,'===============');
                 $('#apt'+formId).toggle();
-                // $(`#apt${formId}`).click(function(){
-                //     console.log('TOGGLE');
-                //     $("#formReply").toggle();
             });
         });
-    // });
     </script>
 {% endblock %}

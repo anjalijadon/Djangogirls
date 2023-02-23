@@ -51,15 +51,9 @@ class PostAdmin(admin.ModelAdmin):
         ('Time Stamp',{'fields':(('created_date'),('published_date'),)}),
         ('Category Fields',{'fields':(('category',),('tag',),)}),]
 
-class TagAdmin(admin.ModelAdmin):
-    search_fields = ['name']
-
-class CommentAdmin(admin.ModelAdmin):
-    search_fields = ['comment']
-
 admin.site.register(User)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Tag, TagAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Tag)
+admin.site.register(Comment)
 

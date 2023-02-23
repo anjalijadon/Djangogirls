@@ -4,8 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
 from django_extensions.db.fields import AutoSlugField
 from django.utils.safestring import mark_safe
-# from django_ckeditor_5.fields import CKEditor5Field
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 class User(AbstractUser):
     email = models.EmailField(max_length=255,blank=True,null=True)
@@ -44,8 +43,7 @@ class Post(models.Model):
     author=models.ForeignKey(User, on_delete=models.CASCADE)
     title=models.CharField(max_length=200)
     slug = AutoSlugField(populate_from=('title'), unique=True, max_length=255)
-    text = RichTextField(config_name='awesome_ckeditor')
-    # text = CKEditor5Field('Text', config_name='extends')
+    text = CKEditor5Field('Text', config_name='extends')
     featured_image = models.ImageField(upload_to="featured_images/")
     thumbnail_image = models.ImageField(upload_to="thumbnail_images/")
     created_date=models.DateTimeField(default=timezone.now)
@@ -68,9 +66,8 @@ class Post(models.Model):
     
 class Comment(models.Model):
     name = models.CharField(max_length=50)
-    # id =  models.AutoField(primary_key=True)
-    email = models.EmailField(max_length=100, default='abc@gmail.com')
-    comment = models.TextField(max_length = 1000, default = 'Good')
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    comment = models.TextField(max_length = 1000, null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=now)
     parent = models.ForeignKey('self' , null=True , blank=True , on_delete=models.CASCADE , related_name='replies')

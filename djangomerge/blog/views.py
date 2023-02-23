@@ -4,18 +4,13 @@ from .models import Post, User, Category, Tag, Comment
 from .forms import *
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-#from django.contrib.auth.forms import AuthenticationForm
-#from taggit.models import Tag
 
 def post_list(request):
 	posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/post_list.html', {'posts':posts})
 
 def post_detail(request, slug):
-	# Post.objects.get(pk=pk)
 	post = get_object_or_404(Post, slug=slug)
-	categories = Category.objects.all()
-	tags = Tag.objects.all()
 	comments = Comment.objects.filter(post=post)
 	print(comments)
 	if request.method == "POST":
@@ -27,7 +22,6 @@ def post_detail(request, slug):
 				print(parent, 'parent instanceeeee')
 			except:
 				parent=None
-			#print(parent,'aaaaaaaaaaaaaaaaaaa')
 			comments = form.save(commit=False)
 			comments.post = post
 			comments.parent = parent
@@ -35,7 +29,7 @@ def post_detail(request, slug):
 		return redirect('blog:post_detail', slug=post.slug)
 	else:
 		form  = CommentForm()
-	return render(request, 'blog/post_detail.html', {'post': post, 'categories': categories,'tags': tags, 'form':form,'comment':comments})
+	return render(request, 'blog/post_detail.html', {'post': post,'form':form,'comment':comments})
 	
 def post_new(request):
 	if request.method == "POST":
@@ -118,22 +112,29 @@ def profile_edit(request):
 	return render(request, 'blog/signup.html', {'form': form})
 
 def category(request,slug):
-	posts = Post.objects.filter(category__slug=slug)#.filter(published_date=True)
+	posts = Post.objects.filter(category__slug=slug)
 	requested_category = Category.objects.get(slug=slug)
 	categories = Category.objects.all()
 	tags = Tag.objects.all()
 
-	return render (request, 'blog/categories.html', {'posts': posts,
+	context = {
+		'posts': posts,
 		'category': requested_category,
 		'categories': categories,
-		'tags': tags,}) # blog/category_list.html should be the template that categories are listed.
+		'tags': tags,}
+
+	return render (request, 'blog/categories.html', context)
 
 def tag(request, slug):
 	posts = Post.objects.filter(tag__slug=slug)
 	requested_tag = Tag.objects.get(slug=slug)
 	categories = Category.objects.all()
 	tags = Tag.objects.all()
-	return render(request, 'blog/tags.html', {'posts': posts,
+
+	context = {
+		'posts': posts,
 		'tag': requested_tag,
 		'categories': categories,
-		'tags': tags, })
+		'tags': tags,
+		}
+	return render(request, 'blog/tags.html', context)

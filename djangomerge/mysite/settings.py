@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,13 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'taggit',
-    'django_autoslug',
-    'django_filters',
-    'csvexport',
-    # 'django_ckeditor_5',
-    'ckeditor',
-    'ckeditor_uploader',
+    'polls.apps.PollsConfig',
+    'django_ckeditor_5',
 ]
 
 MIDDLEWARE = [
@@ -140,8 +134,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/" 
 CKEDITOR_5_FILE_STORAGE = "blog.storage.CustomStorage"
 
-CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = "uploads/"
+# CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+# CKEDITOR_UPLOAD_PATH = "uploads/"
 
 customColorPalette = [
     {"color": "hsl(4, 90%, 58%)", "label": "Red"},
@@ -152,159 +146,154 @@ customColorPalette = [
     {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
 
-CKEDITOR_CONFIGS = {
-    'awesome_ckeditor': {
-        'toolbar': 'Basic',
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "imageUpload"
+        ],
+    },
+    "comment": {
+        "language": {"ui": "en", "content": "en"},
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+        ],
+    },
+    "extends": {
+        "language": "en",
+        "blockToolbar": [
+            "paragraph",
+            "heading1",
+            "heading2",
+            "heading3",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+        ],
+        "toolbar": [
+            "heading",
+            "codeBlock",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "underline",
+            "strikethrough",
+            "code",
+            "subscript",
+            "superscript",
+            "highlight",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "todoList",
+            "|",
+            "blockQuote",
+            "insertImage",
+            "|",
+            "fontSize",
+            "fontFamily",
+            "fontColor",
+            "fontBackgroundColor",
+            "mediaEmbed",
+            "removeFormat",
+            "insertTable",
+            "sourceEditing",
+        ],
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+                "|",
+                "toggleImageCaption",
+                "|"
+            ],
+            "styles": [
+                "full",
+                "side",
+                "alignLeft",
+                "alignRight",
+                "alignCenter",
+            ],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+            ],
+            "tableProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+            "tableCellProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+        },
+        "heading": {
+            "options": [
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading1",
+                    "view": "h1",
+                    "title": "Heading 1",
+                    "class": "ck-heading_heading1",
+                },
+                {
+                    "model": "heading2",
+                    "view": "h2",
+                    "title": "Heading 2",
+                    "class": "ck-heading_heading2",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+            ]
+        },
+        "list": {
+            "properties": {
+                "styles": True,
+                "startIndex": True,
+                "reversed": True,
+            }
+        },
+        "htmlSupport": {
+            "allow": [
+                {"name": "/.*/", "attributes": True, "classes": True, "styles": True}
+            ]
+        },
     },
 }
-
-#     "default": {
-#         "toolbar": [
-#             "heading",
-#             "|",
-#             "bold",
-#             "italic",
-#             "link",
-#             "bulletedList",
-#             "numberedList",
-#             "blockQuote",
-#             "imageUpload"
-#         ],
-#     },
-#     "comment": {
-#         "language": {"ui": "en", "content": "en"},
-#         "toolbar": [
-#             "heading",
-#             "|",
-#             "bold",
-#             "italic",
-#             "link",
-#             "bulletedList",
-#             "numberedList",
-#             "blockQuote",
-#         ],
-#     },
-#     "extends": {
-#         "language": "en",
-#         "blockToolbar": [
-#             "paragraph",
-#             "heading1",
-#             "heading2",
-#             "heading3",
-#             "|",
-#             "bulletedList",
-#             "numberedList",
-#             "|",
-#             "blockQuote",
-#         ],
-#         "toolbar": [
-#             "heading",
-#             "codeBlock",
-#             "|",
-#             "outdent",
-#             "indent",
-#             "|",
-#             "bold",
-#             "italic",
-#             "link",
-#             "underline",
-#             "strikethrough",
-#             "code",
-#             "subscript",
-#             "superscript",
-#             "highlight",
-#             "|",
-#             "bulletedList",
-#             "numberedList",
-#             "todoList",
-#             "|",
-#             "blockQuote",
-#             "insertImage",
-#             "|",
-#             "fontSize",
-#             "fontFamily",
-#             "fontColor",
-#             "fontBackgroundColor",
-#             "mediaEmbed",
-#             "removeFormat",
-#             "insertTable",
-#             "sourceEditing",
-#         ],
-#         "image": {
-#             "toolbar": [
-#                 "imageTextAlternative",
-#                 "|",
-#                 "imageStyle:alignLeft",
-#                 "imageStyle:alignRight",
-#                 "imageStyle:alignCenter",
-#                 "imageStyle:side",
-#                 "|",
-#                 "toggleImageCaption",
-#                 "|"
-#             ],
-#             "styles": [
-#                 "full",
-#                 "side",
-#                 "alignLeft",
-#                 "alignRight",
-#                 "alignCenter",
-#             ],
-#         },
-#         "table": {
-#             "contentToolbar": [
-#                 "tableColumn",
-#                 "tableRow",
-#                 "mergeTableCells",
-#                 "tableProperties",
-#                 "tableCellProperties",
-#             ],
-#             "tableProperties": {
-#                 "borderColors": customColorPalette,
-#                 "backgroundColors": customColorPalette,
-#             },
-#             "tableCellProperties": {
-#                 "borderColors": customColorPalette,
-#                 "backgroundColors": customColorPalette,
-#             },
-#         },
-#         "heading": {
-#             "options": [
-#                 {
-#                     "model": "paragraph",
-#                     "title": "Paragraph",
-#                     "class": "ck-heading_paragraph",
-#                 },
-#                 {
-#                     "model": "heading1",
-#                     "view": "h1",
-#                     "title": "Heading 1",
-#                     "class": "ck-heading_heading1",
-#                 },
-#                 {
-#                     "model": "heading2",
-#                     "view": "h2",
-#                     "title": "Heading 2",
-#                     "class": "ck-heading_heading2",
-#                 },
-#                 {
-#                     "model": "heading3",
-#                     "view": "h3",
-#                     "title": "Heading 3",
-#                     "class": "ck-heading_heading3",
-#                 },
-#             ]
-#         },
-#         "list": {
-#             "properties": {
-#                 "styles": True,
-#                 "startIndex": True,
-#                 "reversed": True,
-#             }
-#         },
-#         "htmlSupport": {
-#             "allow": [
-#                 {"name": "/.*/", "attributes": True, "classes": True, "styles": True}
-#             ]
-#         },
-#     },
-# }
